@@ -6,8 +6,8 @@ const navbar = document.querySelector('.navbar');
 const videoContainer = document.querySelector('.video-container'); // Conteneur de la vidéo
 let menuOpen = false;
 
-// Gestion du scroll pour changer la transparence
-window.addEventListener('scroll', function() {
+// Fonction pour vérifier la position du scroll
+function checkScroll() {
     if (window.scrollY > 100) {
         navbar.classList.remove("transparent");
         navbar.classList.add("solid");
@@ -15,6 +15,15 @@ window.addEventListener('scroll', function() {
         navbar.classList.remove('solid');
         navbar.classList.add('transparent');
     }
+}
+
+// Appeler cette fonction directement lors du chargement et du scroll
+window.addEventListener('load', checkScroll);
+window.addEventListener('scroll', checkScroll);
+
+// Gestion du clic sur le logo pour forcer la vérification du scroll
+document.querySelector('.logo a').addEventListener('click', () => {
+    setTimeout(checkScroll, 50); // Délai pour garantir que la position de scroll est bien prise en compte
 });
 
 // Gérer l'ouverture du menu hamburger au clic
@@ -77,11 +86,16 @@ window.addEventListener('scroll', () => {
         }
     });
 
-    // Mise à jour de la classe active sur les liens du menu
+    // Mise à jour de la classe active sur les lien du menu
     navLinks.forEach(link => {
         link.classList.remove('active');
         if (link.getAttribute('href').includes(currentSection)) {
             link.classList.add('active');
         }
     });
+});
+
+// Ajout d'un log pour vérifier le scroll
+window.addEventListener('scroll', function() {
+    console.log("Position actuelle du scroll :", window.scrollY);
 });
